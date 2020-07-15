@@ -8,9 +8,7 @@ A Python plot-based environment to simulate Path Planning, Path Tracking and Mot
 
 2. Install the dependencies in requirements.txt 
 
-`pip install -r requirements.txt`
-
-or for Python3,
+`pip install -r requirements.txt` or for Python3,
 
 `pip3 install -r requirements.txt`
 
