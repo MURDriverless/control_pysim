@@ -3,3 +3,7 @@ venv/
 
 # Jetbrains IDE
 .idea/
+
+# Compiled objects
+*.pyc
+*.pyo

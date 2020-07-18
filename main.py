@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from models.track import Track
 
 
 # Test plotting with animation
@@ -28,5 +29,12 @@ def animated_plot():
     plt.show()
 
 
+def test_plot_track():
+    track_name = "fsg_alex.txt"
+    track = Track(track_name)
+    track.plot()
+    plt.show()
+
+
 if __name__ == "__main__":
-    animated_plot()
+    test_plot_track()
