@@ -1,5 +1,7 @@
+import math
 import matplotlib.pyplot as plt
 from models.track import Track
+from models.car import Car
 
 
 # Test plotting with animation
@@ -30,9 +32,26 @@ def animated_plot():
 
 
 def test_plot_track():
+    # Initialise objects
     track_name = "fsg_alex.txt"
     track = Track(track_name)
+    init_x = (track.left_cones[0].x + track.right_cones[0].x) / 2.0
+    init_y = (track.left_cones[0].y + track.right_cones[0].y) / 2.0
+    car = Car(init_x, init_y, 0.0)
+
+    # Plot initial positions
     track.plot()
+    car.plot()
+
+    # Plot subsequent simulation positions
+    for i in range(10):
+        car.move(5, (math.pi / 180.0)*-30)  # 5m/s^2 & 30 degree steering to the right
+        plt.cla()
+        track.plot()
+        car.plot()
+        plt.pause(0.2)
+
+    # Render
     plt.show()
 
 
