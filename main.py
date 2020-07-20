@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
-from models.track import Track
-from models.car import Car
+from src.models.track import Track
+from src.models.car import Car
 
 
 # Test plotting with animation
