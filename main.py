@@ -55,5 +55,24 @@ def test_plot_track():
     plt.show()
 
 
+def simulation():
+    """
+    Steps:
+    1. Create track (cones + time keeper)
+    2. Create car
+    3. Create first loop, which is the slow lap. Record total time taken and store the state of the vehicle over time.
+    4. In the slow lap, for each time step (increasing dt from start to end of lap):
+        a. Obtain environment data via SLAM
+        b. Call Path Planner to produce space-domain reference
+        c. Call Path Follower to generate time-domain reference and track the optimal path
+    5. In the fast lap:
+        a. Generate space-domain reference at the start of each lap using Path Planner.
+        b. At every time step, obtain environment data via SLAM
+        c. At every time step, call Path Follower to track the optimal path using current vehicle state
+           and the optimal path generated at the start of the lap.
+    """
+    pass
+
+
 if __name__ == "__main__":
     test_plot_track()
