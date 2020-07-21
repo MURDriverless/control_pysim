@@ -62,16 +62,42 @@ def simulation():
     2. Create car
     3. Create first loop, which is the slow lap. Record total time taken and store the state of the vehicle over time.
     4. In the slow lap, for each time step (increasing dt from start to end of lap):
-        a. Obtain environment data via SLAM
-        b. Call Path Planner to produce space-domain reference
-        c. Call Path Follower to generate time-domain reference and track the optimal path
+        a. Obtain environment data via SLAM, and check if car has finished one lap.
+        b. Call Path Planner to produce space-domain reference.
+        c. Call Path Follower to generate time-domain reference and track the optimal path.
     5. In the fast lap:
         a. Generate space-domain reference at the start of each lap using Path Planner.
-        b. At every time step, obtain environment data via SLAM
+        b. At every time step, obtain environment data via SLAM, and check if the car has finished one lap.
         c. At every time step, call Path Follower to track the optimal path using current vehicle state
            and the optimal path generated at the start of the lap.
     """
     pass
+    # track = Track("fsg_alex.txt")
+    # # Need initial position of the car, we assume initial yaw to be 0
+    # init_x = (track.left_cones[0].x + track.right_cones[0].x) / 2.0
+    # init_y = (track.left_cones[0].y + track.right_cones[0].y) / 2.0
+    # car = Car(init_x, init_y, 0.0)
+    #
+    # t = 0.0
+    # max_t = 10 * 60  # maximum time is 10 minutes
+    # dt = 0.1
+    # finished_slow_lap = False
+    # # Slow lap
+    # planner = None
+    # tracker = None
+    # while t < max_t:
+    #     # Measure car state
+    #     state = car.slam()
+    #     # Generate path
+    #     optimal_path = planner.plan(state)
+    #     # Get control law to track the optimal path
+    #     acceleration, steering = tracker.control(state, optimal_path)
+    #     # Actuate the car
+    #     car.move()
+    #
+    #
+    #     t += dt
+    #
 
 
 if __name__ == "__main__":
