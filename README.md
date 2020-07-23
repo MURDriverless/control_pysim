@@ -13,3 +13,7 @@ A Python plot-based environment to simulate Path Planning, Path Tracking and Mot
 `pip3 install -r requirements.txt`
 
 3. Run `python main.py`
+
+## Further information
+
+For more information, check out the [Wiki](https://github.com/MURDriverless/control_pysim/wiki) page.
