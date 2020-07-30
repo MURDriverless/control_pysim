@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from src.world.environment import Environment
-from src.path_tracking.actuation_data import ActuationData
+from src.path_planning.centre_track import CentreTrack
+from src.path_tracking.pid_pure_pursuit import PIDPurePursuit
 
 
 def simulation():
@@ -20,30 +21,38 @@ def simulation():
            and the optimal path generated at the start of the lap.
     """
     # Simulation parameters
-    fps = 50
+    fps = 5
     dt = 1/fps
-    max_time = 1
+    max_time = 100
     t = 0.0
 
     # Set up simulation
-    env = Environment("fsg_alex.txt", 2)  # SLAM can only discover up to 2 cones on each side
+    env = Environment("fsg_alex.txt", 4, dt)  # SLAM can only discover up to 4 cones on each side
     env.plot()
     # Get initial observations
     slam_data = env.slam.update(env.car, env.left_cones, env.right_cones)
+    planned_path = None
+
+    # Create Path Planner and Follower
+    planner = CentreTrack(10, 0.5)  # Generate reference from 0 to 10m (approx. 2 cones ahead) with step size of 0.5m
+    follower = PIDPurePursuit()
 
     # Run simulation
     while t < max_time:
-        # Plan path based on initial observations
-        # From planned path, generate actuation command
-        actuation = ActuationData(10, 0)
-        # Get observations from SLAM after applying the actuation
-        slam_data = env.update(actuation)
         # Plot the result
         env.plot()
+        # Plan path based on initial observations
+        planned_path = planner.plan(slam_data)
+        # From planned path, generate actuation command
+        actuation = follower.control(slam_data, planned_path)
+        # Get observations from SLAM after applying the actuation
+        slam_data = env.update(actuation)
         # Increment timer
         t += dt
         # Introduce pause for animation purposes
-        plt.pause(0.05)
+        plt.pause(dt)
+
+    plt.show()
 
 
 if __name__ == "__main__":

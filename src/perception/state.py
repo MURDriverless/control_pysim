@@ -10,17 +10,16 @@ class State:
         of a list can sometimes be confusing to interpret, depending on the choice of states.
         The keyword indexes in this class aim to remove that confusion.
     """
-    def __init__(self, x, y, linear_velocity, yaw, angular_velocity, steering_angle):
+    def __init__(self, x, y, linear_velocity, yaw):
         self.x = x
         self.y = y
         self.linear_velocity = linear_velocity
         self.yaw = yaw
-        self.angular_velocity = angular_velocity
-        self.steering_angle = steering_angle
 
     @classmethod
     def from_array(cls, array):
-        return cls(array[0], array[1], array[2], array[3], array[4], array[5])
+        """ Format: [x, y, linear_velocity, yaw, angular_velocity] """
+        return cls(array[0], array[1], array[2], array[3])
 
     @classmethod
     def from_car(cls, car):
@@ -28,4 +27,4 @@ class State:
         Args:
             car (Car): a Car object as specified in src.world.car
         """
-        return cls(car.x, car.y, car.linear_velocity, car.yaw, car.angular_velocity, car.steering_angle)
+        return cls(car.x, car.y, car.linear_velocity, car.yaw)

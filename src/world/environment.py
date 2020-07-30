@@ -9,21 +9,20 @@ from src.perception.slam import SLAM
 
 
 class Environment:
-    def __init__(self, track_name, cone_searchable_size):
+    def __init__(self, track_name, cone_searchable_size, dt):
+        # Simulation parameters
+        self.dt = dt
+
         # Build track
         self.left_cones, self.right_cones = self.load_track(track_name)
 
         # Initialise car
         init_yaw = 0.0
         init_x, init_y = self.get_car_init_position(self.left_cones, self.right_cones)
-        self.car = Car(init_x, init_y, init_yaw)
+        self.car = Car(init_x, init_y, init_yaw, dt)
 
         # Initialise SLAM reporter
         self.slam = SLAM(cone_searchable_size)
-
-        # Create list to hold x and y positions for plotting purpose
-        self.xs = []
-        self.ys = []
 
     def update(self, actuation):
         """
@@ -39,11 +38,6 @@ class Environment:
         self.car.move(actuation.acceleration, actuation.steering)
         # Get slam observation
         slam_data = self.slam.update(self.car, self.left_cones, self.right_cones)
-
-        # Append position to memory for plotting purposes
-        self.xs.append(slam_data.state.x)
-        self.ys.append(slam_data.state.y)
-
         # Finally, return slam observation
         return slam_data
 
@@ -58,18 +52,12 @@ class Environment:
         self.slam.left_index = 0
         self.slam.right_index = 0
 
-        # Assign empty list to xs and ys
-        self.xs = []
-        self.ys = []
-
     def plot(self):
         # Clear axes as we are drawing from scratch
         plt.cla()
         # Plot the static cones
         [cone.plot() for cone in self.left_cones + self.right_cones]
-        # Plot the trajectory of the car from start as a line
-        plt.plot(self.xs, self.ys, 'k-')
-        # And finally, plot the car's current position with an "x"
+        # Plot car trajectory
         self.car.plot()
 
     @staticmethod
